@@ -1,0 +1,51 @@
+
+  <% if @post.errors.any? %>
+    <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+<!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+    <% if flash[:notice] %>
+      <%= flash[:notice] %>
+    <% else %>
+      <%= flash[:alert] %>
+    <% end  %>
+
+<!-- >>>>>>>>>>>>>>>>display post title and body>>>>>>>>>>>>>>>>>>>>>>> -->
+
+  <div class="">
+     <h4>title: <%= @post.title %></h4>
+     <img class="thumbnail img-full-width" src= "<%= @post.image %>">
+     <h4>body: <%= @post.body %></h4>
+
+  </div>
+
+
+<!-- >>>>>>>>>>> link to edit & delete >>>>>>>>>>>>>>>> -->
+  <%= link_to "Edit", edit_post_path %> |
+  <%= link_to "Delete", post_path(@post),
+                          method: :delete,
+                          data: { confirm: 'Are you sure?' } %>
+
+
+<!-- >>>>>>>>>>>>> comments form >>>>>>>>>>>> -->
+<div class="container">
+  <h4>Add Comments</h4>
+  <%= form_for [@post,@comment] do |f| %>
+    <div class="form-group">
+      <%= f.label :body %>
+      <%= f.text_field :body, class: 'form-control'%>
+    </div>
+    <%= f.submit 'Submit your comment', class: 'btn btn-primary' %>
+  <% end %>
+
+  <!-- >>>>>>>> display comment below the post>>>>>>                         -->
+    <h4>Comments</h4>
+    <% @post.comments.each do |comment| %>
+       <div class="well"><%= comment.body %></div>
+    <% end  %>
+
+</div>  <!--closing container -->
